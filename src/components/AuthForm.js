@@ -2,9 +2,58 @@ import React, { useState } from "react"
 import { authService, firebaseInstance } from "fbase"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faGithub, faGoogle } from "@fortawesome/free-brands-svg-icons"
+import styled from "styled-components"
 
-const inputStyles = {}
-
+const SendForm = styled.form`
+    display: flex;
+    flex-direction: column;
+`
+const EmailInput = styled.input`
+    justify-self: center;
+    align-self: center;
+    width: 80%;
+    height: 20px;
+    background-color: white;
+    border-radius: 10px;
+    padding-left: 10px;
+`
+const PasswordInput = styled.input`
+    justify-self: center;
+    align-self: center;
+    width: 80%;
+    height: 20px;
+    background-color: white;
+    border-radius: 10px;
+    padding-left: 10px;
+    margin: 10px 0;
+`
+const SubmitInput = styled.input`
+    justify-self: center;
+    align-self: center;
+    text-align: center;
+    cursor: pointer;
+    width: 100px;
+    height: 20px;
+    border: 1px solid white;
+    border-radius: 10px;
+`
+const AuthBtn = styled.div`
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin-top: 10px;
+`
+const GoogleBtn = styled.button`
+    border-radius: 50px;
+    width: 50px;
+    height: 50px;
+`
+const GithubBtn = styled.button`
+    border-radius: 50px;
+    width: 50px;
+    height: 50px;
+`
+const AuthError = styled.span``
 const AuthForm = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -41,22 +90,36 @@ const AuthForm = () => {
         }
         await authService.signInWithPopup(provider)
     }
+
     return (
         <>
-            <form onSubmit={onSubmit} className="container">
-                <input name="email" type="email" placeholder="Email" required value={email} onChange={onChange} className="authInput" />
-                <input name="password" type="password" placeholder="Password" required value={password} className="authInput" onChange={onChange} />
-                <input type="submit" className="authInput authSubmit" value={"Sign In"} />
-                {error && <span className="authError">{error}</span>}
-            </form>
-            <div className="authBtns">
-                <button onClick={onSocialClick} name="google" className="authBtn">
-                    Continue with Google <FontAwesomeIcon icon={faGoogle} />
-                </button>
-                <button onClick={onSocialClick} name="github" className="authBtn">
-                    Continue with Github <FontAwesomeIcon icon={faGithub} />
-                </button>
-            </div>
+            <SendForm onSubmit={onSubmit}>
+                <EmailInput name="email" type="email" placeholder="Email" required value={email} onChange={onChange} />
+                <PasswordInput name="password" type="password" placeholder="Password" required value={password} onChange={onChange} />
+                <SubmitInput type="submit" value={"Sign In"} />
+                {error && <AuthError>{error}</AuthError>}
+            </SendForm>
+            <AuthBtn>
+                <GoogleBtn>
+                    <FontAwesomeIcon
+                        icon={faGoogle}
+                        onClick={(event) => {
+                            event.target.name = "google"
+                            onSocialClick(event)
+                        }}
+                        name="abc"
+                    />
+                </GoogleBtn>
+                <GithubBtn>
+                    <FontAwesomeIcon
+                        icon={faGithub}
+                        onClick={(event) => {
+                            event.target.name = "github"
+                            onSocialClick(event)
+                        }}
+                    />
+                </GithubBtn>
+            </AuthBtn>
         </>
     )
 }

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react"
 import AppRouter from "components/Router"
 import { authService } from "fbase"
-import Main from "./Main"
 
 function App() {
     const [init, setInit] = useState(false)
@@ -32,7 +31,6 @@ function App() {
         <>
             {init ? (
                 <>
-                    <Main></Main>
                     <AppRouter refreshUser={refreshUser} isLoggedIn={Boolean(userObj)} userObj={userObj} />
                 </>
             ) : (
